@@ -28,6 +28,10 @@ public class Member extends Worker {
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addressList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member"
+            ,fetch = FetchType.LAZY)
+    private List<Order> orderList = new ArrayList<>();
+
     public Member(String name, String email) {
         this.name = name;
         this.email = email;

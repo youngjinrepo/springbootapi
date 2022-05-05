@@ -9,7 +9,6 @@ import java.util.List;
 public interface MemberService {
     Long join(Member member);
     MemberDto findOne(Long id);
-
     List<AddressDto> findAddresses(Long id);
     boolean addAddress(Long id, AddressDto addressDto);
 }

@@ -5,10 +5,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,6 +21,9 @@ public class Product {
     private String name;
     private String description;
     private int stockQuantity;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderProduct> orderProductList = new ArrayList<>();
 
     public Product(String name, String description, int stockQuantity) {
         this.name = name;
