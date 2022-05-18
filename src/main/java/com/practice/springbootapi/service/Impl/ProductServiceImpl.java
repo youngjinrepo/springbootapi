@@ -3,7 +3,6 @@ package com.practice.springbootapi.service.Impl;
 import com.practice.springbootapi.controller.dtos.ProductDto;
 import com.practice.springbootapi.controller.dtos.QProductDto;
 import com.practice.springbootapi.model.Product;
-import com.practice.springbootapi.model.QProduct;
 import com.practice.springbootapi.repository.ProductRepository;
 import com.practice.springbootapi.service.ProductService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -31,9 +30,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto findById(Long id) {
-        return queryFactory.select(
-                        new QProductDto(product.id, product.name, product.description, product.stockQuantity)
-                )
+        return queryFactory
+                .select(new QProductDto(product.id, product.name, product.description, product.stockQuantity))
                 .from(product)
                 .where(product.id.eq(id))
                 .fetchOne();

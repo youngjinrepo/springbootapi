@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderDto {
+    private Long orderId;
     private String memberName;
     private LocalDateTime orderDate;
     private OrderStatus orderStatus;

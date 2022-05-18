@@ -2,14 +2,12 @@ package com.practice.springbootapi.controller;
 
 import com.practice.springbootapi.controller.dtos.OrderDto;
 import com.practice.springbootapi.controller.dtos.ProductDto;
+import com.practice.springbootapi.repository.OrderRepository;
 import com.practice.springbootapi.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.constraints.NotBlank;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,5 +28,13 @@ public class OrderController {
         OrderDto orderDto = orderService.getOrderById(orderId);
 
         return new ResponseEntity<>(orderDto, HttpStatus.OK);
+    }
+
+    @PatchMapping("/order/{id}/")
+    public ResponseEntity<OrderDto> orderCancel(OrderDto orderDto) {
+        orderService.orderCancel(orderDto.getOrderId());
+        OrderDto result = orderService.getOrderById(orderDto.getOrderId());
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

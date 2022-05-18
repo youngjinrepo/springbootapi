@@ -39,7 +39,7 @@ public class Product {
         stockQuantity = tmp;
     }
     public void plusStockQuantity(int cnt) {
-        stockQuantity =+ cnt;
+        stockQuantity = stockQuantity + cnt;
     }
 
 }

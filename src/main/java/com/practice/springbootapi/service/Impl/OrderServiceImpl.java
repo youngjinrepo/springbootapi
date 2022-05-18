@@ -35,7 +35,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Long order(Long memberId, ProductDto productDto) {
-
         Member member = memberRepository.findById(memberId).orElseThrow( () -> new ResourceNotFoundException("Order", "id", memberId));
 
         Product product = productRepository.getById(productDto.getProductId());
@@ -62,5 +61,13 @@ public class OrderServiceImpl implements OrderService {
                 .join(member.orderList, order)
                 .where(order.id.eq(id))
                 .fetchOne();
+    }
+
+    @Override
+    @Transactional
+    public Long orderCancel(Long orderId) {
+        Order order = em.find(Order.class, orderId);
+        order.orderCancel();
+        return orderId;
     }
 }

@@ -10,4 +10,6 @@ import java.util.List;
 public interface OrderService {
     Long order(Long memberId, ProductDto productDto);
     OrderDto getOrderById(Long id);
+
+    Long orderCancel(Long orderId);
 }

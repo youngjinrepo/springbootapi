@@ -1,10 +1,12 @@
 package com.practice.springbootapi.model;
 
+import com.practice.springbootapi.exception.RequestDeniedException;
 import com.practice.springbootapi.model.audit.WorkDate;
 import com.practice.springbootapi.model.status.OrderStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,8 +33,14 @@ public class Order extends WorkDate {
     private List<OrderProduct> orderProducts = new ArrayList<>() ;
 
     private LocalDateTime orderDate;
+    private LocalDateTime orderCancelDate;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 
     public static Order createOrder(Member member, OrderProduct... orderProduct) {
         Order order = new Order();
@@ -47,5 +55,18 @@ public class Order extends WorkDate {
         order.orderDate = LocalDateTime.now();
 
         return order;
+    }
+
+    public void orderCancel() {
+        if ( status != OrderStatus.READY ) {
+            throw new RequestDeniedException(HttpStatus.BAD_REQUEST, "취소 불가능한 상태입니다.");
+        }
+
+        status = OrderStatus.CANCEL;
+        orderCancelDate = LocalDateTime.now();
+
+        for (OrderProduct orderProduct : orderProducts) {
+            orderProduct.restoreStockQuantity();
+        }
     }
 }
