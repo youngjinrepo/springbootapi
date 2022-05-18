@@ -19,4 +19,16 @@ public class OrderProduct {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
+
+    public static OrderProduct createOrderProduct(Product product, int count) {
+        OrderProduct orderProduct = new OrderProduct();
+        orderProduct.product = product;
+        orderProduct.product.minusStockQuantity(count);
+
+        return orderProduct;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 }

@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
@@ -23,9 +21,9 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/product/{id}")
-    public ResponseEntity<Product> findProduct(@PathVariable Long id) {
-        Optional<Product> result = productService.findById(id);
-        return new ResponseEntity<>(Optional.ofNullable(result).get().orElse(null), HttpStatus.OK);
+    public ResponseEntity<ProductDto> findProduct(@PathVariable Long id) {
+        ProductDto result = productService.findById(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/products/")
@@ -36,7 +34,7 @@ public class ProductController {
 
     @PostMapping("/product/")
     public ResponseEntity<Long> addProduct(ProductDto productDto) {
-        Long id = productService.AddProduct(new Product(productDto.getName(), productDto.getDescription(), productDto.getStockQuantity()));
+        Long id = productService.AddProduct(new Product(productDto.getName(), productDto.getDesc(), productDto.getCnt()));
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 }

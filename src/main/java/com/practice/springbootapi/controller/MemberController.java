@@ -45,7 +45,7 @@ public class MemberController {
 
     @PostMapping("/member/{id}/address")
     public ResponseEntity<List<AddressDto>> addMemberAddress(@PathVariable("id") Long id, AddressDto addressDto) {
-        boolean addressCnt = memberService.addAddress(id, addressDto);
+        boolean addSuccess = memberService.addAddress(id, addressDto);
         List<AddressDto> addresses = memberService.findAddresses(id);
         return new ResponseEntity<>(addresses, HttpStatus.CREATED);
     }

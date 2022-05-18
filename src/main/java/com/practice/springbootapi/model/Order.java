@@ -25,21 +25,27 @@ public class Order extends WorkDate {
     @JoinColumn(name = "orderList")
     private Member member;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<OrderProduct> orderProducts = new ArrayList<>() ;
 
     private LocalDateTime orderDate;
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    public Order(Member member, Product product) {
-        this.member = member;
-        this.orderProducts = orderProducts;
-    }
+    public static Order createOrder(Member member, OrderProduct... orderProduct) {
+        Order order = new Order();
 
-    @PrePersist
-    public void prePersist() {
-        orderDate = LocalDateTime.now();
-        status = OrderStatus.READY;
+        order.member = member;
+        for (OrderProduct product : orderProduct) {
+            order.orderProducts.add(product);
+            product.setOrder(order);
+        }
+
+        order.status = OrderStatus.READY;
+        order.orderDate = LocalDateTime.now();
+
+        return order;
     }
 }

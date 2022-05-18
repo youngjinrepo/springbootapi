@@ -1,6 +1,6 @@
 package com.practice.springbootapi.controller.dtos;
 
-import com.practice.springbootapi.model.Product;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,13 +8,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductDto {
+    private Long productId;
     private String name;
-    private String description;
-    private int stockQuantity;
+    private String desc;
+    private int cnt;
 
-    public ProductDto(Product product) {
-        this.name = product.getName();
-        this.description = product.getDescription();
-        this.stockQuantity = product.getStockQuantity();
+    @QueryProjection
+    public ProductDto(Long productId, String name, String desc, int cnt) {
+        this.productId = productId;
+        this.name = name;
+        this.desc = desc;
+        this.cnt = cnt;
     }
 }
